@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
+    "test:types": "tsc -p test/types/tsconfig.json",
     "coverage": "nyc --reporter=lcov --reporter=text mocha"
   },
   "engines": {
@@ -44,7 +45,10 @@
     "ws": "^8.5.0"
   },
   "devDependencies": {
+    "@types/node": "22.19.21",
+    "@types/ws": "8.18.1",
     "mocha": "^10.0.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "typescript": "5.9.3"
   }
 }
