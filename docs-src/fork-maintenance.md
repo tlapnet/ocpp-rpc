@@ -35,6 +35,8 @@ tests onto that baseline; we did not replace it with the old CommonJS files.
 - Declaration fixes are made in the source JSDoc and verified with strict
   `skipLibCheck: false` consumer checks, including runtime execution of the
   emitted ESM and CommonJS consumers. Generated `.d.ts` files are not hand edited.
+  The Node, WebSocket and backoff type packages are installed dependencies,
+  because the generated public declarations reference them.
 
 ## Install by immutable commit
 
@@ -84,7 +86,10 @@ npm run docs
 ```
 
 The fork's CI builds declarations, runs coverage and strict consumer checks on
-Node.js 20/22/24/26. Upstream npm-publication and Pages-deployment workflows are
+Node.js 20/22/24/26. `test:types` installs a freshly packed artifact in a temporary
+project outside the checkout, so missing installed type dependencies cannot be
+hidden by this repository's development dependencies. Upstream npm-publication
+and Pages-deployment workflows are
 guarded to run only in the upstream repository. Enabling publication or deployment
 requires a separate request.
 
