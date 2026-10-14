@@ -1,6 +1,8 @@
 const assert = require('assert/strict');
 const {getEventListeners, once} = require('events');
 const {setImmediate} = require('timers/promises');
+const {execFile} = require('child_process');
+const {promisify} = require('util');
 const RPCClient = require('../lib/client');
 const RPCServer = require('../lib/server');
 
@@ -196,6 +198,24 @@ describe('RPCServer lifecycle cleanup', function () {
         } finally {
             await server.close();
         }
+    });
+
+    it('does not leave a listening HTTP server after startup abort', async function () {
+        this.timeout(8000);
+        // A leaked listener keeps the child alive after all public cleanup has
+        // completed. Use the running Node version, including older supported ones.
+        const script = `
+            const RPCServer = require(${JSON.stringify(require.resolve('../lib/server'))});
+            (async () => {
+                const server = new RPCServer();
+                const ac = new AbortController();
+                const listening = server.listen(0, '127.0.0.1', {signal: ac.signal});
+                ac.abort(new Error('cancelled during DNS lookup'));
+                await listening.catch(() => {});
+                await server.close();
+            })().catch(error => { console.error(error); process.exitCode = 1; });
+        `;
+        await promisify(execFile)(process.execPath, ['-e', script], {timeout: 5000});
     });
 
     it('rejects a failed bind and releases its signal listener', async () => {
