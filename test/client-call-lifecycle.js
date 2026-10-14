@@ -162,4 +162,26 @@ describe('RPCClient call dispatch lifecycle', function () {
         assert.deepEqual(received, ['First', 'Barrier']);
         assert.equal(client._outboundMsgBuffer.length, 0);
     });
+
+    it('finishes buffered calls when graceful close starts while the buffer is draining', async () => {
+        await start({holdUpgrade: true});
+        client.reconfigure({callConcurrency: 2});
+        const first = client.call('First', {}, {callTimeoutMs: 200});
+        const second = client.call('Second', {}, {callTimeoutMs: 200});
+        first.catch(() => {});
+        second.catch(() => {});
+        let closing;
+        client.on('message', ({outbound, message}) => {
+            if (outbound && JSON.parse(message)[2] === 'First') {
+                closing = client.close({awaitPending: true});
+            }
+        });
+        acceptUpgrade();
+        await connection;
+        await Promise.all([first, second]);
+        await closing;
+        assert.deepEqual(received, ['First', 'Second']);
+        assert.equal(client.state, RPCClient.CLOSED);
+        assert.equal(client._outboundMsgBuffer.length, 0);
+    });
 });
