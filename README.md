@@ -1,5 +1,11 @@
 # OCPP-RPC
 
+This is the **Tlapnet stable fork**. The default `2.x` branch is based on the
+published CommonJS `ocpp-rpc@2.2.1`, with tested lifecycle fixes. Upstream `master`
+contains development for a new major version and is not the stable baseline.
+See [fork maintenance and usage](docs/FORK.md) for installation by immutable
+commit, verification, known limits, and upstream synchronization.
+
 [![Coverage Status](https://coveralls.io/repos/github/mikuso/ocpp-rpc/badge.svg?branch=master)](https://coveralls.io/github/mikuso/ocpp-rpc?branch=master)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mikuso/ocpp-rpc/test.yaml?branch=master)
 [![GitHub issues](https://img.shields.io/github/issues/mikuso/ocpp-rpc)](https://github.com/mikuso/ocpp-rpc/issues)
