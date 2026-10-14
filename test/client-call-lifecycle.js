@@ -140,4 +140,26 @@ describe('RPCClient call dispatch lifecycle', function () {
         await client.call('Barrier', {});
         assert.deepEqual(received, ['FireAndForget', 'Barrier']);
     });
+
+    it('removes a request cancelled while the connection buffer is draining', async () => {
+        await start({holdUpgrade: true});
+        client.reconfigure({callConcurrency: 2});
+        const controller = new AbortController();
+        const first = client.call('First', {});
+        const rejected = assert.rejects(client.call('CancelledBeforeDispatch', {}, {
+            signal: controller.signal,
+        }), {name: 'AbortError'});
+        client.on('message', ({outbound, message}) => {
+            if (outbound && JSON.parse(message)[2] === 'First') {
+                controller.abort('cancel while flushing');
+            }
+        });
+        acceptUpgrade();
+        await connection;
+        await first;
+        await rejected;
+        await client.call('Barrier', {});
+        assert.deepEqual(received, ['First', 'Barrier']);
+        assert.equal(client._outboundMsgBuffer.length, 0);
+    });
 });
