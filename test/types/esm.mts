@@ -8,13 +8,15 @@ import {
     type RPCServerClient,
 } from 'ocpp-rpc';
 
-// Defaults must remain optional, while the client still requires its identity and URL.
+// Defaults remain optional; identity is required at construction, endpoint before connect().
 const clientOptions: RPCClientOptions = {
     endpoint: 'ws://localhost:3000',
     identity: 'types-smoke',
 };
 const serverOptions: RPCServerOptions = {};
 const client = new RPCClient(clientOptions);
+const deferredClient = new RPCClient({identity: 'deferred-endpoint'});
+deferredClient.reconfigure({endpoint: 'ws://localhost:3000'});
 const server = new RPCServer(serverOptions);
 const defaultServer = new RPCServer();
 client.reconfigure({callTimeoutMs: 500});
@@ -46,6 +48,10 @@ function rejectedTypes() {
     new RPCClient();
     // @ts-expect-error The client identity is required.
     new RPCClient({endpoint: 'ws://localhost:3000'});
+    // @ts-expect-error An optional endpoint must still be a string.
+    new RPCClient({identity: 'invalid-endpoint', endpoint: 3000});
+    // @ts-expect-error Partial reconfiguration must preserve endpoint's type.
+    deferredClient.reconfigure({endpoint: 3000});
     // @ts-expect-error Timeout options must be numeric.
     client.call('Heartbeat', {}, {callTimeoutMs: '500'});
     // @ts-expect-error Abort must use an AbortSignal.
