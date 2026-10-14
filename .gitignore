@@ -2,6 +2,6 @@
 node_modules/
 coverage/
 docs/
-types/
+/types/
 assets/logo.psd
 ~$*

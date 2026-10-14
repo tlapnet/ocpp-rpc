@@ -11,7 +11,7 @@
     "readme": "./README.md",
     "alwaysCreateEntryPointModule": false,
     "githubPages": true,
-    "sourceLinkTemplate": "https://github.com/mikuso/ocpp-rpc/blob/{gitRevision}/{path}#L{line}",
+    "sourceLinkTemplate": "https://github.com/tlapnet/ocpp-rpc/blob/{gitRevision}/{path}#L{line}",
     "jsDocCompatibility": true,
     "excludeInternal": true,
     "excludePrivate": true,
@@ -21,6 +21,7 @@
     "customJs": "./docs-src/custom.js",
     "projectDocuments": [
         "docs-src/getting-started.md",
+        "docs-src/fork-maintenance.md",
         "docs-src/upgrading.md",
         "docs-src/strict-validation.md",
         "docs-src/security.md",
