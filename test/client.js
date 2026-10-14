@@ -858,10 +858,8 @@ describe('RPCClient', function(){
                 const c1 = cli.connect();
                 const c2 = cli.connect();
 
-                await c1;
-                await c2;
-
-                assert.deepEqual(c1, c2);
+                const [result1, result2] = await Promise.all([c1, c2]);
+                assert.strictEqual(result1, result2);
 
             } finally {
                 cli.close();

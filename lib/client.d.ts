@@ -67,11 +67,11 @@ declare class RPC_Client extends EventEmitter {
     static CONNECTING: number;
     static CLOSING: number;
     static CLOSED: number;
-    constructor({ ...options }: RPC_ClientOptions);
+    constructor({ ...options }: Pick<RPC_ClientOptions, "identity"> & Partial<RPC_ClientOptions>);
     get identity(): string | undefined;
     get protocol(): string | undefined;
     get state(): number;
-    reconfigure(options: RPC_ClientOptions): void;
+    reconfigure(options: Partial<RPC_ClientOptions>): void;
     /**
      * Attempt to connect to the RPCServer.
      * @returns {Promise<undefined>} Resolves when connected, rejects on failure
