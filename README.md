@@ -1,11 +1,12 @@
 # OCPP-RPC
 
-[![Coverage Status](https://coveralls.io/repos/github/mikuso/ocpp-rpc/badge.svg?branch=master)](https://coveralls.io/github/mikuso/ocpp-rpc?branch=master)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mikuso/ocpp-rpc/test.yaml?branch=master)
-[![GitHub issues](https://img.shields.io/github/issues/mikuso/ocpp-rpc)](https://github.com/mikuso/ocpp-rpc/issues)
-[![GitHub license](https://img.shields.io/github/license/mikuso/ocpp-rpc)](https://github.com/mikuso/ocpp-rpc/blob/master/LICENSE.md)
-[![GitHub stars](https://img.shields.io/github/stars/mikuso/ocpp-rpc)](https://github.com/mikuso/ocpp-rpc/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/mikuso/ocpp-rpc)](https://github.com/mikuso/ocpp-rpc/network)
+[![Tests](https://github.com/tlapnet/ocpp-rpc/actions/workflows/test.yaml/badge.svg?branch=3.x)](https://github.com/tlapnet/ocpp-rpc/actions/workflows/test.yaml)
+
+**Tlapnet 3.x development fork:** based on upstream's unreleased **3.0.0** work
+at `9a8ef4a5e85e39b5def30588ab0b8c7ff04aef7f`, with our tested lifecycle fixes.
+The package identifies itself as `3.0.0-tlapnet.0`; this is not an upstream or npm
+release. The previous CommonJS implementation remains on branch `2.x`.
+See [fork maintenance and installation](docs-src/fork-maintenance.md).
 
 ![OCPP-RPC](./assets/logo.png)
 
@@ -36,8 +37,12 @@ This module is built for Node.js and does not currently work in browsers.
 ## Installing
 
 ```sh
-npm install ocpp-rpc
+npm install --save-exact 'git+https://github.com/tlapnet/ocpp-rpc.git#FULL_COMMIT_SHA'
 ```
+
+Use a reviewed full commit SHA and commit your application's lockfile. Git
+installation runs `prepare` to generate TypeScript declarations. Installing
+`ocpp-rpc` from npm still selects the separately released upstream version.
 
 ## Usage Examples
 

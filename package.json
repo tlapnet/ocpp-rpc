@@ -1,5 +1,6 @@
 {
   "name": "ocpp-rpc",
+  "version": "3.0.0-tlapnet.0",
   "description": "A client & server implementation of the WAMP-like RPC-over-websocket system defined in the OCPP protocols (e.g. OCPP1.6-J and OCPP2.0.1).",
   "main": "index.js",
   "types": "./types/index.d.ts",
@@ -8,6 +9,8 @@
     "coverage": "c8 --reporter=lcov --reporter=text mocha",
     "build": "npm run build:types",
     "build:types": "tsc -p tsconfig.json",
+    "prepare": "npm run build:types",
+    "test:types": "node test/types/run.mjs",
     "docs": "npm run build:types && typedoc"
   },
   "engines": {
